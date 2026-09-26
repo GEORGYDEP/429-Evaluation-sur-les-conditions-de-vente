@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Évaluation formative — Les conditions de vente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0f172a; --navy-light: #1e293b; --slate: #334155; --slate-mid: #64748b; --slate-light: #94a3b8;
+  --blue: #2563eb; --blue-light: #3b82f6; --blue-pale: #dbeafe; --blue-bg: #eff6ff;
+  --green: #16a34a; --green-pale: #dcfce7; --red: #dc2626; --red-pale: #fee2e2;
+  --orange: #ea580c; --orange-pale: #fff7ed; --white: #ffffff;
+  --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0; --gray-300: #cbd5e1;
+  --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+  --radius: 8px; --radius-lg: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { background: var(--gray-50); }
+body { font-family: var(--font-body); color: var(--navy); line-height: 1.55; font-size: 15px; -webkit-font-smoothing: antialiased; }
+button, input, select { font-family: inherit; font-size: inherit; }
+:focus-visible { outline: 3px solid var(--blue-light); outline-offset: 2px; }
+
+.screen { display: none; }
+.screen.active { display: block; }
+main { max-width: 900px; margin: 0 auto; padding: 28px 20px 80px; }
+
+/* ---------- Header ---------- */
+.app-header { position: sticky; top: 0; z-index: 50; background: var(--white); border-bottom: 1px solid var(--gray-200); display: none; }
+.app-header.show { display: block; }
+.hdr-inner { max-width: 900px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 16px; }
+.hdr-title { font-weight: 800; font-size: 15px; color: var(--navy); }
+.hdr-mail { font-size: 12.5px; color: var(--slate-mid); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 46vw; }
+.hdr-timer { margin-left: auto; font-family: var(--font-mono); font-size: 15px; font-weight: 500; background: var(--gray-100); color: var(--navy-light); padding: 6px 12px; border-radius: var(--radius); }
+.progress { height: 4px; background: var(--gray-200); }
+.progress-fill { height: 100%; width: 0; background: var(--blue); transition: width .3s ease; }
+
+/* ---------- Cards & common ---------- */
+.card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: 28px; }
+.btn { border: none; border-radius: var(--radius); padding: 12px 22px; font-weight: 700; cursor: pointer; transition: background .15s ease, opacity .15s ease; }
+.btn-primary { background: var(--blue); color: var(--white); }
+.btn-primary:hover:not(:disabled) { background: #1d4ed8; }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--slate); border: 2px solid var(--gray-200); }
+.btn-ghost:hover:not(:disabled) { border-color: var(--gray-300); background: var(--gray-50); }
+.btn-ghost:disabled { opacity: .4; cursor: not-allowed; }
+.actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 24px; flex-wrap: wrap; }
+
+/* ---------- Login ---------- */
+.login-wrap { max-width: 640px; margin: 6vh auto 0; }
+.login-kicker { font-size: 13px; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+.login-title { font-size: 30px; line-height: 1.2; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 8px; }
+.login-lead { color: var(--slate); margin-bottom: 24px; }
+.rules { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 16px 18px; margin-bottom: 24px; }
+.rules h2 { font-size: 14px; font-weight: 800; margin-bottom: 8px; }
+.rules ul { padding-left: 18px; color: var(--slate); font-size: 14px; }
+.rules li { margin: 4px 0; }
+label.fld { display: block; font-size: 13px; font-weight: 700; color: var(--slate); margin-bottom: 6px; }
+.email-input { width: 100%; padding: 12px 14px; border: 2px solid var(--gray-200); border-radius: var(--radius); outline: none; color: var(--navy); background: var(--white); }
+.email-input:focus { border-color: var(--blue-light); }
+.login-msg { margin-top: 12px; font-size: 14px; min-height: 20px; }
+.login-msg.err { color: var(--red); }
+.login-msg.info { color: var(--slate-mid); }
+
+/* ---------- Question card ---------- */
+.q-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 14px; font-size: 13px; color: var(--slate-mid); flex-wrap: wrap; }
+.q-meta strong { color: var(--navy); font-weight: 800; font-size: 14px; }
+.q-theme { font-size: 13px; font-weight: 700; color: var(--blue); margin-bottom: 10px; }
+.q-context { background: var(--blue-bg); border-left: 4px solid var(--blue-light); border-radius: 0 var(--radius) var(--radius) 0; padding: 14px 16px; margin-bottom: 18px; color: var(--navy-light); font-size: 14.5px; }
+.q-context p + p { margin-top: 6px; }
+.q-text { font-size: 17px; font-weight: 700; line-height: 1.45; margin-bottom: 6px; }
+.q-sub { font-size: 13.5px; color: var(--slate-mid); margin-bottom: 18px; }
+.q-body { margin-top: 14px; }
+
+/* Conditions générales (document) */
+.cg { background: var(--white); border: 1px solid var(--gray-300); border-radius: var(--radius); padding: 14px 16px; margin-top: 8px; font-size: 14px; }
+.cg-title { font-weight: 800; margin-bottom: 6px; }
+.cg p { margin: 3px 0; }
+
+/* QCM */
+.qcm-list { display: flex; flex-direction: column; gap: 10px; }
+.qcm-option { display: flex; gap: 12px; align-items: flex-start; text-align: left; width: 100%; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius); padding: 12px 14px; cursor: pointer; color: var(--navy); transition: border-color .12s ease, background .12s ease; }
+.qcm-option:hover:not(.locked) { border-color: var(--gray-300); background: var(--gray-50); }
+.qcm-option .ltr { flex: 0 0 26px; height: 26px; border-radius: 50%; border: 2px solid var(--gray-300); display: grid; place-items: center; font-size: 12px; font-weight: 800; color: var(--slate-mid); }
+.qcm-option.selected { border-color: var(--blue); background: var(--blue-bg); }
+.qcm-option.selected .ltr { background: var(--blue); border-color: var(--blue); color: var(--white); }
+.qcm-option.locked { cursor: default; }
+
+/* Numeric */
+.num-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.num-input { width: 220px; max-width: 100%; padding: 12px 14px; border: 2px solid var(--gray-200); border-radius: var(--radius); font-family: var(--font-mono); font-size: 16px; text-align: right; outline: none; color: var(--navy); }
+.num-input:focus { border-color: var(--blue-light); }
+.num-input:disabled { background: var(--gray-100); color: var(--slate); }
+.num-unit { font-weight: 700; color: var(--slate); }
+.num-hint { font-size: 12.5px; color: var(--slate-mid); margin-top: 8px; }
+
+/* Tags / reserve */
+.reserve-label { font-size: 12.5px; font-weight: 700; color: var(--slate-mid); margin-bottom: 6px; }
+.reserve { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px; border: 2px dashed var(--gray-300); border-radius: var(--radius); background: var(--gray-50); min-height: 56px; margin-bottom: 16px; }
+.reserve-empty { color: var(--slate-light); font-size: 13px; font-style: italic; align-self: center; }
+.tag { background: var(--white); border: 2px solid var(--gray-300); border-radius: 999px; padding: 6px 12px; font-size: 13.5px; font-weight: 600; color: var(--navy-light); cursor: pointer; user-select: none; line-height: 1.35; transition: border-color .12s ease, background .12s ease; }
+.tag:hover { border-color: var(--blue-light); }
+.tag.picked { background: var(--blue); border-color: var(--blue); color: var(--white); }
+.tag.placed { border-radius: var(--radius); width: 100%; background: var(--white); }
+.locked-zone .tag, .locked-zone .tag:hover { cursor: default; border-color: var(--gray-300); }
+
+/* Classer — la colonne entière est la zone de dépôt (13.13) */
+.bins { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.bin { border: 2px solid var(--gray-200); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; background: var(--white); transition: border-color .12s ease, background .12s ease; }
+.bin.droppable { border-color: var(--blue-light); border-style: dashed; cursor: pointer; }
+.bin.droppable:hover { background: var(--blue-bg); }
+.bin-title { background: var(--gray-100); padding: 10px 12px; font-size: 13.5px; font-weight: 800; color: var(--navy); text-align: center; }
+.bin-drop { padding: 10px; min-height: 92px; flex: 1 1 auto; display: flex; flex-direction: column; gap: 7px; cursor: pointer; }
+.bin-empty { color: var(--slate-light); font-size: 13px; font-style: italic; text-align: center; margin: auto 0; pointer-events: none; }
+
+/* Pairs — la ligne entière est la zone de dépôt */
+.pairs { display: flex; flex-direction: column; gap: 10px; }
+.pair-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(170px, 38%); gap: 12px; align-items: center; border: 2px solid var(--gray-200); border-radius: var(--radius); padding: 10px 12px; background: var(--white); cursor: pointer; transition: border-color .12s ease, background .12s ease; }
+.pair-row.droppable { border-color: var(--blue-light); border-style: dashed; }
+.pair-row.droppable:hover { background: var(--blue-bg); }
+.pair-lbl { font-size: 14.5px; color: var(--navy-light); }
+.slot-box { min-height: 38px; border-radius: var(--radius); background: var(--gray-100); display: flex; align-items: center; justify-content: center; padding: 4px; }
+.slot-box .tag { width: 100%; text-align: center; border-radius: var(--radius); pointer-events: none; }
+.slot-empty { color: var(--slate-light); font-weight: 700; pointer-events: none; }
+
+/* Schéma (tableau récapitulatif) */
+.sch-wrap { overflow-x: auto; }
+.sch-title { font-weight: 800; font-size: 14px; margin-bottom: 8px; }
+table.sch { border-collapse: collapse; width: 100%; min-width: 560px; font-size: 14px; }
+table.sch th { background: var(--navy-light); color: var(--white); text-align: left; padding: 9px 10px; font-weight: 700; }
+table.sch td { border: 1px solid var(--gray-200); padding: 6px; vertical-align: middle; }
+table.sch td.rowh { font-weight: 800; background: var(--gray-50); padding-left: 10px; }
+table.sch td.fixed { padding-left: 10px; color: var(--slate); }
+.sch-slot { min-height: 38px; border: 2px solid var(--gray-200); border-radius: var(--radius); background: var(--gray-100); display: flex; align-items: center; justify-content: center; padding: 4px; cursor: pointer; transition: border-color .12s ease, background .12s ease; }
+.sch-slot.droppable { border-color: var(--blue-light); border-style: dashed; }
+.sch-slot.droppable:hover { background: var(--blue-bg); }
+.sch-slot .tag { width: 100%; text-align: center; border-radius: var(--radius); pointer-events: none; }
+
+/* Multi */
+.multi-list { display: flex; flex-direction: column; gap: 8px; }
+.multi-opt { display: flex; gap: 12px; align-items: flex-start; width: 100%; text-align: left; background: var(--white); border: 2px solid var(--gray-200); border-radius: var(--radius); padding: 11px 14px; cursor: pointer; color: var(--navy); }
+.multi-opt:hover:not(.locked) { border-color: var(--gray-300); background: var(--gray-50); }
+.multi-opt .box { flex: 0 0 20px; height: 20px; margin-top: 1px; border: 2px solid var(--gray-300); border-radius: 5px; display: grid; place-items: center; color: var(--white); font-size: 13px; font-weight: 800; }
+.multi-opt.selected { border-color: var(--blue); background: var(--blue-bg); }
+.multi-opt.selected .box { background: var(--blue); border-color: var(--blue); }
+.multi-opt.locked { cursor: default; }
+
+/* Erreurs — document à corriger */
+.doc { border: 1px solid var(--gray-300); border-radius: var(--radius); background: var(--white); box-shadow: var(--shadow); overflow: hidden; }
+.doc-head { background: var(--gray-100); border-bottom: 1px solid var(--gray-200); padding: 10px 16px; font-size: 13px; color: var(--slate); }
+.doc-head strong { color: var(--navy); }
+.doc-body { padding: 16px 18px; font-size: 15px; line-height: 1.9; }
+.seg { cursor: pointer; border-radius: 4px; padding: 2px 1px; transition: background .12s ease; }
+.seg:hover { background: var(--gray-100); }
+.seg.flag { background: var(--red-pale); text-decoration: underline; text-decoration-color: var(--red); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.locked-zone .seg { cursor: default; }
+.locked-zone .seg:hover:not(.flag) { background: transparent; }
+
+/* Feedback */
+.feedback { margin-top: 18px; padding: 12px 14px; border-radius: var(--radius); font-weight: 700; font-size: 14.5px; display: none; }
+.feedback.show { display: block; }
+.feedback.ok { background: var(--green-pale); color: var(--green); }
+.feedback.ko { background: var(--red-pale); color: var(--red); }
+.feedback.neutral { background: var(--gray-100); color: var(--slate); }
+.feedback small { display: block; font-weight: 500; color: var(--slate); margin-top: 2px; }
+
+/* Transition & done */
+.center-card { max-width: 640px; margin: 8vh auto 0; text-align: left; }
+.center-card h1 { font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+.center-card p { color: var(--slate); margin-bottom: 10px; }
+
+/* Summary */
+.sum-head { display: flex; align-items: flex-end; gap: 28px; flex-wrap: wrap; margin-bottom: 22px; }
+.score-big { font-size: 56px; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
+.score-max { font-size: 22px; font-weight: 700; color: var(--slate-mid); }
+.sum-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-bottom: 26px; }
+.stat { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: var(--radius); padding: 12px 14px; }
+.stat .label { font-size: 12.5px; color: var(--slate-mid); font-weight: 600; }
+.stat .value { font-size: 20px; font-weight: 800; font-family: var(--font-mono); }
+.comp-list { display: flex; flex-direction: column; gap: 14px; }
+.comp-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px 14px; align-items: center; padding-bottom: 14px; border-bottom: 1px solid var(--gray-100); }
+.comp-name { font-weight: 700; font-size: 14.5px; }
+.comp-phrase { font-size: 13px; color: var(--slate-mid); grid-column: 1 / -1; }
+.comp-bar { grid-column: 1 / -1; height: 8px; background: var(--gray-100); border-radius: 999px; overflow: hidden; }
+.comp-bar span { display: block; height: 100%; border-radius: 999px; }
+.pill { font-size: 12.5px; font-weight: 800; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.pill.acq { background: var(--green-pale); color: var(--green); }
+.pill.enc { background: var(--orange-pale); color: var(--orange); }
+.pill.non { background: var(--red-pale); color: var(--red); }
+.pill.ind { background: var(--gray-100); color: var(--slate-mid); }
+.prio { margin-top: 24px; background: var(--blue-bg); border-radius: var(--radius); padding: 16px 18px; }
+.prio h3 { font-size: 15px; font-weight: 800; margin-bottom: 6px; }
+.prio ul { padding-left: 18px; color: var(--navy-light); }
+.sec-title { font-size: 16px; font-weight: 800; margin: 6px 0 14px; }
+
+@media (max-width: 640px) {
+  main { padding: 18px 14px 60px; }
+  .card { padding: 20px 16px; }
+  .pair-row { grid-template-columns: 1fr; }
+  .sum-stats { grid-template-columns: 1fr; }
+  .hdr-mail { display: none; }
+  .login-title { font-size: 24px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="app-header" id="appHeader">
+  <div class="hdr-inner">
+    <div>
+      <div class="hdr-title">Les conditions de vente</div>
+      <div class="hdr-mail" id="hdrMail"></div>
+    </div>
+    <div class="hdr-timer" id="timer" aria-label="Temps écoulé">00:00:00</div>
+  </div>
+  <div class="progress"><div class="progress-fill" id="progressFill"></div></div>
+</header>
+
+<main>
+  <!-- 1. LOGIN -->
+  <section class="screen active" id="screenLogin">
+    <div class="login-wrap card">
+      <div class="login-kicker">Économie d'entreprise · Évaluation formative</div>
+      <h1 class="login-title">Les conditions de vente</h1>
+      <p class="login-lead">Qualité, quantité, prix et réductions, conditions de paiement et de livraison.</p>
+      <div class="rules">
+        <h2>Avant de commencer</h2>
+        <ul>
+          <li>L'évaluation dure environ 1 h 15 : 10 questions de théorie, puis 29 exercices.</li>
+          <li>Tu ne peux faire l'évaluation qu'une seule fois, et tu ne peux pas revenir en arrière.</li>
+          <li>Les questions à choix (une réponse, plusieurs réponses, phrases fausses) ne comptent qu'une seule tentative. Les calculs et les exercices à étiquettes en comptent deux.</li>
+          <li>Tu peux passer un exercice : tu gardes alors les points de ta meilleure tentative.</li>
+          <li>Garde ton cours fermé, prends une calculatrice et une feuille de brouillon. Ne recharge pas la page.</li>
+        </ul>
+      </div>
+      <label class="fld" for="emailInput">Ton adresse e-mail scolaire</label>
+      <input type="email" id="emailInput" class="email-input" placeholder="prenom.nom@…" autocomplete="email">
+      <div class="login-msg" id="loginMsg"></div>
+      <div class="actions"><button class="btn btn-primary" id="btnStart">Commencer l'évaluation</button></div>
+    </div>
+  </section>
+
+  <!-- 2. DÉJÀ FAIT -->
+  <section class="screen" id="screenDone">
+    <div class="center-card card">
+      <h1>Évaluation déjà réalisée</h1>
+      <p>Tu as déjà terminé cette évaluation. Elle ne peut être faite qu'une seule fois.</p>
+      <p>Si tu penses qu'il s'agit d'une erreur, préviens ton professeur.</p>
+    </div>
+  </section>
+
+  <!-- 3. QUIZ -->
+  <section class="screen" id="screenQuiz">
+    <div class="card" id="quizCard"></div>
+  </section>
+
+  <!-- 4. TRANSITION -->
+  <section class="screen" id="screenTransition">
+    <div class="center-card card">
+      <h1>Première partie terminée</h1>
+      <p>Tu vas maintenant faire 29 exercices, répartis en cinq thèmes. Lis bien chaque situation avant de répondre.</p>
+      <p>Pour un calcul, écris seulement le nombre, sans séparateur de milliers. Le point et la virgule sont acceptés pour les décimales.</p>
+      <div class="actions"><button class="btn btn-primary" id="btnStartEx">Commencer les exercices</button></div>
+    </div>
+  </section>
+
+  <!-- 5. EXERCICES -->
+  <section class="screen" id="screenExercise">
+    <div class="card question-card" id="exCard">
+      <div class="q-meta"><strong id="exCounter"></strong><span id="exPts"></span></div>
+      <div id="exHead"></div>
+      <div class="q-body" id="exBody"></div>
+      <div class="feedback" id="exFeedback"></div>
+      <div class="actions">
+        <button class="btn btn-ghost" id="btnSkip">Passer</button>
+        <button class="btn btn-primary" id="btnValidate" disabled>Valider</button>
+        <button class="btn btn-primary" id="btnNextEx" style="display:none">Question suivante</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. RÉSUMÉ -->
+  <section class="screen" id="screenSummary">
+    <div class="card">
+      <div class="sum-head">
+        <div>
+          <div class="stat-label" style="font-size:13px;color:var(--slate-mid);font-weight:600;margin-bottom:6px">Ton score</div>
+          <span class="score-big" id="totalScore">0</span> <span class="score-max" id="totalMax">/ 50</span>
+        </div>
+      </div>
+      <div class="sum-stats">
+        <div class="stat"><div class="label">Théorie</div><div class="value" id="quizScore">0/10</div></div>
+        <div class="stat"><div class="label">Exercices</div><div class="value" id="exScore">0/40</div></div>
+        <div class="stat"><div class="label">Temps</div><div class="value" id="totalTime">00:00:00</div></div>
+      </div>
+      <h2 class="sec-title">Où en es-tu ?</h2>
+      <div class="comp-list" id="compList"></div>
+      <div class="prio" id="prioBox"></div>
+      <p style="margin-top:22px;font-size:13.5px;color:var(--slate-mid)">Tes réponses ont été envoyées à ton professeur. La correction se fera en classe : tu peux fermer cette page.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+// ============================================================
+// CONFIGURATION — À ADAPTER POUR CHAQUE ÉVALUATION
+// ============================================================
+const CONFIG = {
+  SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbzff9KEtrF9aH2ajzRvpPmePXDjOzLeOjrqpxJRO5uSKsfAMlY24A39eWO2tXBvO-eu/exec',
+  APP_NAME: 'Conditions de vente',
+  NB_QUIZ: 10,
+  NB_EXERCICES: 29,
+  POINTS_MAX: 50,            // 10 (quiz) + 40 (exercices)
+  POINTS_EX: 40,
+  TENTATIVES_CHOIX: 1,       // qcm, multi, erreurs : une seule chance
+  TENTATIVES_MANIP: 2        // classer, pairs, schema, numeric
+};
+
+const CHOIX = ['qcm', 'multi', 'erreurs'];
+const maxTentatives = ex => CHOIX.includes(ex.type) ? CONFIG.TENTATIVES_CHOIX : CONFIG.TENTATIVES_MANIP;
+const PARTIELS = ['classer', 'pairs', 'schema', 'multi', 'erreurs'];
+
+// ============================================================
+// RÉFÉRENTIEL DE COMPÉTENCES — codes stables sur toute l'année
+// ============================================================
+const COMPETENCES = {
+  C1: { libelle: "Décrire une marchandise (qualité et quantité)",  critere: 'Identifier / qualifier' },
+  C2: { libelle: 'Calculer les poids brut, net et la tare',         critere: 'Calculer' },
+  C3: { libelle: 'Distinguer les réductions de prix',               critere: 'Identifier / qualifier' },
+  C4: { libelle: 'Calculer un prix net après réductions',           critere: 'Calculer' },
+  C5: { libelle: 'Appliquer les conditions de paiement',            critere: 'Appliquer une procédure' },
+  C6: { libelle: 'Analyser les conditions de livraison',            critere: 'Connaître le cadre' }
+};
+
+const STATE = {
+  email: '', classe: '', session: '',
+  timerInterval: null, startTime: null, elapsed: 0,
+  currentQuiz: 0, currentEx: 0,
+  quizPoints: 0, exPoints: 0,
+  quizAnswered: Array(CONFIG.NB_QUIZ).fill(false),
+  exAnswered: Array(CONFIG.NB_EXERCICES).fill(false),
+  exAttempts: Array(CONFIG.NB_EXERCICES).fill(0),
+  exBest: Array(CONFIG.NB_EXERCICES).fill(0),
+  exTime: Array(CONFIG.NB_EXERCICES).fill(0),
+  questionStartTime: 0, lastAttemptTime: 0,
+  quizStart: 0, exStart: 0,
+  comp: {}
+};
+
+const QUIZ = [
+  { id: 'Q1', comp: 'C1', points: 1,
+    text: "Pourquoi le vendeur et l'acheteur décrivent-ils la qualité d'un produit de façon complète ?",
+    options: [
+      "Pour identifier précisément le produit et éviter toute confusion lors de la commande.",
+      "Pour pouvoir calculer le poids net de la marchandise livrée.",
+      "Pour savoir si la livraison sera franco ou non franco.",
+      "Pour fixer le montant de la remise accordée au client."
+    ], correct: 0,
+    explication: "La qualité rassemble les caractéristiques qui identifient précisément le produit (désignation, référence, dimensions, composition, marque) : une description complète évite les confusions." },
+  { id: 'Q2', comp: 'C1', points: 1,
+    text: "Sur une fiche produit, le code « MU773ZD/A » ou le code EAN imprimé sur l'emballage correspond à…",
+    options: ["la référence du produit.", "la désignation du produit.", "la marque du produit.", "la composition du produit."],
+    correct: 0,
+    explication: "La référence est le code unique du produit (SKU, EAN…). La désignation est son nom, la marque son fabricant ou sa gamme." },
+  { id: 'Q3', comp: 'C2', points: 1,
+    text: "Dans une livraison de marchandises vendues au poids, que désigne la tare ?",
+    options: [
+      "Le poids de l'emballage seul.",
+      "Le poids de la marchandise seule.",
+      "Le poids de la marchandise avec son emballage.",
+      "La différence entre le poids commandé et le poids livré."
+    ], correct: 0,
+    explication: "Tare = poids de l'emballage seul. La marchandise seule est le poids net ; marchandise + emballage, le poids brut." },
+  { id: 'Q4', comp: 'C3', points: 1,
+    text: "Un fournisseur livre une commande avec deux semaines de retard. Pour s'excuser, il déduit 30 € de la facture. De quelle réduction s'agit-il ?",
+    options: ["Un rabais.", "Une remise.", "Une ristourne.", "Un escompte."], correct: 0,
+    explication: "Le rabais est une réduction exceptionnelle qui compense un défaut, une non-conformité ou un retard de livraison." },
+  { id: 'Q5', comp: 'C3', points: 1,
+    text: "Laquelle de ces réductions est une réduction financière, et non commerciale ?",
+    options: ["L'escompte.", "Le rabais.", "La remise.", "La ristourne."], correct: 0,
+    explication: "Rabais, remise et ristourne sont des réductions commerciales. L'escompte est une réduction financière, liée au paiement anticipé." },
+  { id: 'Q6', comp: 'C3', points: 1,
+    text: "Une facture mentionne un escompte conditionnel de 2 %. Qu'est-ce que cela signifie ?",
+    options: [
+      "L'acheteur ne peut déduire les 2 % que s'il paie dans le délai prévu.",
+      "Les 2 % sont déduits directement sur la facture, quel que soit le moment du paiement.",
+      "Les 2 % ne sont accordés qu'aux clients qui achètent une grande quantité.",
+      "Les 2 % sont calculés sur l'ensemble des achats de l'année."
+    ], correct: 0,
+    explication: "Conditionnel : l'acheteur peut le déduire s'il paie plus tôt. Inconditionnel : déduit d'office sur la facture." },
+  { id: 'Q7', comp: 'C5', points: 1,
+    text: "En Belgique, selon la règle générale, jusqu'à quel montant peut-on payer un achat en espèces ?",
+    options: ["3 000 €", "1 000 €", "5 000 €", "10 000 €"], correct: 0,
+    explication: "Le paiement en espèces est limité à 3 000 € en Belgique (règle générale)." },
+  { id: 'Q8', comp: 'C5', points: 1,
+    text: "Que signifie un paiement « avec acompte » ?",
+    options: [
+      "Le client paie une partie du prix (au moins 15 %) à la commande et le solde à la livraison.",
+      "Le client paie la totalité du prix au moment de la commande.",
+      "Le client paie le prix en plusieurs mensualités.",
+      "Le client paie la totalité au livreur, au moment de la livraison."
+    ], correct: 0,
+    explication: "Avec acompte : paiement partiel (min. 15 %) à la commande, solde à la livraison. Les autres options décrivent « à la commande », « à tempérament » et « contre remboursement »." },
+  { id: 'Q9', comp: 'C6', points: 1,
+    text: "Une marchandise est expédiée « non franco » (port dû). Qu'est-ce que cela signifie ?",
+    options: [
+      "Les frais de transport sont à charge de l'acheteur.",
+      "Les frais de transport sont à charge du vendeur.",
+      "La livraison est gratuite à partir d'un montant minimum.",
+      "Les frais de transport sont partagés entre le vendeur et l'acheteur."
+    ], correct: 0,
+    explication: "Non franco (port dû) : frais de transport à charge de l'acheteur. Franco : à charge du vendeur." },
+  { id: 'Q10', comp: 'C6', points: 1,
+    text: "Chez beaucoup de vendeurs, à quoi la livraison franco est-elle souvent conditionnée ?",
+    options: [
+      "À un montant minimum de commande.",
+      "À un paiement dans les 8 jours.",
+      "À un délai de livraison express.",
+      "Au choix du transporteur par l'acheteur."
+    ], correct: 0,
+    explication: "La livraison franco est souvent conditionnée à un montant minimum de commande (ex. : Coolblue à partir de 20 €)." }
+];
+
+// ---------- Contextes d'exercices ----------
+const TH_A = "Thème A — La qualité et la quantité";
+const TH_B = "Thème B — Le prix et les réductions";
+const TH_C = "Thème C — Les conditions de paiement";
+const TH_D = "Thème D — Les conditions de livraison";
+const TH_E = "Thème E — Analyse de conditions générales";
+
+const CTX_FAUTEUIL = `Une école commande l'article suivant : <em>« Fauteuil de bureau Sitwell, réf. SW-4410, hauteur 110 cm, assise en mousse et tissu recyclé »</em>.`;
+const CTX_POMMES = `La coopérative <strong>Vergers du Hainaut</strong> expédie une palette de pommes à un magasin de Mons. Le bon de livraison indique : poids brut 1 250 kg — tare 48 kg.`;
+const CTX_CIMENT = `Un grossiste en matériaux reçoit une livraison de ciment en sacs. Le bon de livraison indique : poids brut 18 400 kg — poids net 17 950 kg.`;
+const CTX_FARINE = `Un moulin expédie un carton contenant 24 sachets de farine de 1,5 kg chacun (poids de la farine seule). Les sachets vides et le carton pèsent ensemble 2,8 kg.`;
+const CTX_RIZ = `Un restaurant reçoit 12 sacs de riz. Chaque sac pèse 25,4 kg, emballage compris. Un sac vide pèse 0,4 kg.`;
+const CTX_IMPRIMANTE = `Un magasin d'informatique vend une imprimante au prix brut de 349,00 €. Il accorde une remise de 15 % à un client professionnel.`;
+const CTX_ARTICLE = `Un article coûte 200,00 € (prix brut). Le vendeur accorde une remise de 10 %, puis un escompte de 2 % pour paiement rapide.`;
+const CTX_BALLONS = `Le magasin <strong>Sprint Sports</strong> commande 40 ballons de football à 18,50 € pièce chez son grossiste.<br>Conditions du grossiste : remise de 10 % pour toute commande de plus de 500 € ; escompte de 2 % si la facture est payée dans les 8 jours.`;
+const CTX_ANNEE = `Sur toute l'année 2026, <strong>Sprint Sports</strong> a acheté pour 12 400,00 € chez ce grossiste. Chaque mois de janvier, le grossiste rembourse 1,5 % de tous les achats de l'année aux clients dont le total dépasse 10 000 €.`;
+const CTX_CUISINE = `Madame Dufour commande une cuisine équipée à 9 800 €. Le jour de la commande, elle verse 1 470 €. Elle paiera le reste le jour où la cuisine sera livrée.`;
+const CTX_SPORTZONE = `<div class="cg">
+<div class="cg-title">CONDITIONS GÉNÉRALES — SportZone.be</div>
+<p><strong>Prix :</strong> tous nos prix sont indiqués TVAC.</p>
+<p><strong>Livraison :</strong> franco domicile pour toute commande à partir de 75 €. En dessous, frais de port de 5,95 €. Délai : 2 à 4 jours ouvrables.</p>
+<p><strong>Paiement :</strong> Bancontact, Visa, virement bancaire, Payconiq. Particuliers : paiement à la commande. Professionnels : 30 jours fin de mois.</p>
+<p><strong>Réductions :</strong> remise de 8 % à partir de 400 € d'achat. Escompte de 2 % pour paiement dans les 8 jours (professionnels uniquement).</p>
+</div>`;
+
+const EXERCISES = [
+  // ---------------- THÈME A ----------------
+  { id: 'EX1', comp: 'C1', theme: TH_A, partie: 'Thème A — Trier qualité et quantité',
+    type: 'classer', points: 2,
+    text: "Une fiche de commande mélange des informations sur plusieurs articles. Classe chaque information dans la bonne colonne.",
+    qsub: "Clique une étiquette, puis la colonne où tu veux la déposer. Clique une étiquette placée pour la renvoyer dans la réserve.",
+    bins: [ { name: "Qualité" }, { name: "Quantité" } ],
+    items: [
+      { t: "Laine mérinos", b: 0 },
+      { t: "Réf. MU773ZD/A", b: 0 },
+      { t: "Coloris bordeaux", b: 0 },
+      { t: "Format A4", b: 0 },
+      { t: "Marque Oxford", b: 0 },
+      { t: "5 stylos", b: 1 },
+      { t: "2 kg de pommes", b: 1 },
+      { t: "1,5 l d'eau", b: 1 },
+      { t: "50 m² de parquet", b: 1 }
+    ] },
+  { id: 'EX2', comp: 'C1', theme: TH_A, partie: 'Thème A — Éléments de la qualité (fauteuil)',
+    type: 'pairs', points: 2, context: CTX_FAUTEUIL,
+    text: "Associe chaque partie de la description à ce qu'elle indique.",
+    qsub: "Clique une étiquette dans la réserve, puis l'emplacement qui lui correspond. Toutes les étiquettes ne sont pas utilisées.",
+    slots: [
+      { lbl: "Fauteuil de bureau", ans: "La désignation" },
+      { lbl: "Sitwell", ans: "La marque" },
+      { lbl: "SW-4410", ans: "La référence" },
+      { lbl: "Hauteur 110 cm", ans: "Les dimensions" },
+      { lbl: "Mousse et tissu recyclé", ans: "La composition" }
+    ],
+    bank: ["La désignation", "La marque", "La référence", "Les dimensions", "La composition", "La quantité", "Le poids net"] },
+  { id: 'EX3', comp: 'C2', theme: TH_A, partie: 'Thème A — Poids net (palette de pommes)',
+    type: 'numeric', points: 1, context: CTX_POMMES,
+    text: "Quel est le poids net de la palette ?", answer: 1202, tolerance: 0.01, unit: 'kg',
+    corrige: "Poids net = poids brut − tare = 1 250 − 48 = 1 202 kg" },
+  { id: 'EX4', comp: 'C2', theme: TH_A, partie: 'Thème A — Tare (ciment)',
+    type: 'numeric', points: 1, context: CTX_CIMENT,
+    text: "Quelle est la tare de cette livraison ?", answer: 450, tolerance: 0.01, unit: 'kg',
+    corrige: "Tare = poids brut − poids net = 18 400 − 17 950 = 450 kg" },
+  { id: 'EX5', comp: 'C2', theme: TH_A, partie: 'Thème A — Poids brut (carton de farine)',
+    type: 'numeric', points: 1, context: CTX_FARINE,
+    text: "Quel est le poids brut du carton ?", answer: 38.8, tolerance: 0.01, unit: 'kg',
+    corrige: "Poids net = 24 × 1,5 = 36 kg ; poids brut = poids net + tare = 36 + 2,8 = 38,8 kg" },
+  { id: 'EX6', comp: 'C2', theme: TH_A, partie: 'Thème A — Poids net total (sacs de riz)',
+    type: 'numeric', points: 1, context: CTX_RIZ,
+    text: "Quel est le poids net total du riz livré ?", answer: 300, tolerance: 0.01, unit: 'kg',
+    corrige: "Poids net d'un sac = 25,4 − 0,4 = 25 kg ; 12 × 25 = 300 kg (ou : brut 304,8 − tare 4,8 = 300 kg)" },
+
+  // ---------------- THÈME B ----------------
+  { id: 'EX7', comp: 'C3', theme: TH_B, partie: 'Thème B — Trier rabais, remise, ristourne',
+    type: 'classer', points: 2,
+    text: "Voici neuf situations. Classe chaque réduction dans la bonne colonne.",
+    qsub: "Clique une étiquette, puis la colonne où tu veux la déposer. Clique une étiquette placée pour la renvoyer dans la réserve.",
+    bins: [ { name: "Rabais" }, { name: "Remise" }, { name: "Ristourne" } ],
+    items: [
+      { t: "Un canapé est livré avec une tache sur l'accoudoir : le vendeur déduit 80 €.", b: 0 },
+      { t: "Des chaussures livrées en pointure 42 au lieu de 43 : le client les garde, avec 15 € de réduction.", b: 0 },
+      { t: "Un colis arrive avec cinq jours de retard : le vendeur déduit 20 € de la facture.", b: 0 },
+      { t: "−10 % pour l'achat de 200 cahiers.", b: 1 },
+      { t: "−30 % sur tout le rayon pendant les soldes d'hiver.", b: 1 },
+      { t: "Un plombier obtient −8 % grâce à sa carte de client professionnel.", b: 1 },
+      { t: "En janvier, le fournisseur rembourse 2 % de tout ce que le client a acheté l'année précédente.", b: 2 },
+      { t: "Un club sportif reçoit en fin de saison 5 % du total de ses achats de la saison.", b: 2 },
+      { t: "Si les achats du trimestre dépassent 3 000 € au total, le client reçoit 1 % de ce total.", b: 2 }
+    ] },
+  { id: 'EX8', comp: 'C3', theme: TH_B, partie: "Thème B — Repérer les escomptes",
+    type: 'multi', points: 1,
+    text: "Sélectionne toutes les situations qui décrivent un escompte.",
+    qsub: "Plusieurs réponses sont correctes.",
+    options: [
+      "2 % de réduction si la facture est payée dans les 10 jours au lieu de 30.",
+      "Le client paie comptant et le vendeur déduit 1 % du montant.",
+      "3 % sont déduits d'office sur la facture parce que le client paie au comptant.",
+      "5 % de réduction parce que le client achète 500 pièces.",
+      "20 € de réduction car l'article livré est abîmé.",
+      "3 % remboursés en fin d'année sur l'ensemble des achats.",
+      "Le client paie en trois mensualités, sans frais."
+    ],
+    multi: [0, 1, 2] },
+  { id: 'EX9', comp: 'C3', theme: TH_B, partie: 'Thème B — Compléter le tableau récapitulatif des réductions',
+    type: 'schema', points: 2,
+    text: "Complète le tableau récapitulatif des réductions.",
+    qsub: "Clique un mot dans la réserve, puis la case où il doit aller. Tous les mots de la réserve ne sont pas utilisés.",
+    answers: ["Défaut, retard", "Exceptionnellement", "Quantité, promo", "Régulièrement",
+              "Fidélité", "Périodiquement", "Financière", "Paiement anticipé", "Si paiement rapide"],
+    bank: ["Défaut, retard", "Exceptionnellement", "Quantité, promo", "Régulièrement",
+           "Fidélité", "Périodiquement", "Financière", "Paiement anticipé", "Si paiement rapide",
+           "Paiement échelonné", "À la commande"],
+    slotNames: ["Rabais — Raison", "Rabais — Quand ?", "Remise — Raison", "Remise — Quand ?",
+                "Ristourne — Raison", "Ristourne — Quand ?", "Escompte — Type", "Escompte — Raison", "Escompte — Quand ?"] },
+  { id: 'EX10', comp: 'C3', theme: TH_B, partie: 'Thème B — Affirmations fausses (note Bureau Plus)',
+    type: 'erreurs', points: 3,
+    docTitle: "Note interne — Bureau Plus",
+    docMeta: "De : responsable des ventes · À : nouveaux vendeurs",
+    text: "Le responsable des ventes de Bureau Plus a rédigé cette note pour les nouveaux vendeurs. Clique sur les affirmations qui sont fausses.",
+    qsub: "Clique une phrase pour la signaler ; clique à nouveau pour annuler ta sélection.",
+    segments: [
+      { t: "Chez Bureau Plus, une remise peut être accordée à certains clients privilégiés, comme les professionnels." },
+      { t: "Lorsqu'un client achète 100 ramettes de papier, il reçoit automatiquement un rabais de 10 %.",
+        err: true, fix: "Une réduction accordée en raison de la quantité achetée est une remise, pas un rabais." },
+      { t: "Si une imprimante est livrée avec une griffe sur le capot, le vendeur peut proposer un rabais." },
+      { t: "Un rabais peut aussi être accordé lorsque la marchandise livrée ne correspond pas à la commande." },
+      { t: "Nos clients fidèles reçoivent chaque trimestre un escompte de 3 % sur le total de leurs achats du trimestre écoulé.",
+        err: true, fix: "Une réduction sur l'ensemble des achats d'une période est une ristourne, pas un escompte." },
+      { t: "L'escompte récompense le client qui paie avant l'échéance prévue." },
+      { t: "L'escompte est une réduction commerciale, comme la remise et la ristourne.",
+        err: true, fix: "L'escompte est une réduction financière." },
+      { t: "Un escompte inconditionnel est directement déduit sur la facture." },
+      { t: "Pendant les soldes, nous accordons une ristourne de 20 % sur les classeurs.",
+        err: true, fix: "Une réduction liée à des soldes ou à une promotion est une remise." },
+      { t: "La remise est une réduction habituelle, accordée régulièrement." }
+    ] },
+  { id: 'EX11', comp: 'C4', theme: TH_B, partie: 'Thème B — Montant de la remise (imprimante)',
+    type: 'numeric', points: 1, context: CTX_IMPRIMANTE,
+    text: "Quel est le montant de la remise ?", answer: 52.35, tolerance: 0.01, unit: '€',
+    corrige: "Remise = 349,00 × 15 / 100 = 52,35 €" },
+  { id: 'EX12', comp: 'C4', theme: TH_B, partie: "Thème B — Prix net (imprimante)",
+    type: 'numeric', points: 1, context: CTX_IMPRIMANTE,
+    text: "Quel est le prix net de l'imprimante ?", answer: 296.65, tolerance: 0.01, unit: '€',
+    corrige: "Prix net = 349,00 − 52,35 = 296,65 €" },
+  { id: 'EX13', comp: 'C4', theme: TH_B, partie: "Thème B — Base de calcul de l'escompte",
+    type: 'qcm', points: 1, context: CTX_ARTICLE,
+    text: "Sur quel montant l'escompte de 2 % est-il calculé ?",
+    options: [
+      "Sur 180,00 €, le montant obtenu après la remise.",
+      "Sur 200,00 €, le prix brut.",
+      "Sur 20,00 €, le montant de la remise.",
+      "Sur 176,40 €, le montant net à payer."
+    ], correct: 0,
+    corrige: "L'escompte se calcule sur le net commercial : 200 − 20 = 180 € ; escompte = 180 × 2 / 100 = 3,60 € ; net à payer = 176,40 €." },
+  { id: 'EX14', comp: 'C4', theme: TH_B, partie: 'Thème B — Prix brut (ballons)',
+    type: 'numeric', points: 1, context: CTX_BALLONS,
+    text: "Quel est le prix brut de la commande ?", answer: 740, tolerance: 0.01, unit: '€',
+    corrige: "Prix brut = 40 × 18,50 = 740,00 €" },
+  { id: 'EX15', comp: 'C4', theme: TH_B, partie: 'Thème B — Net commercial (ballons)',
+    type: 'numeric', points: 1, context: CTX_BALLONS,
+    text: "Quel est le net commercial ?", answer: 666, tolerance: 0.01, unit: '€',
+    corrige: "Remise = 740,00 × 10 / 100 = 74,00 € (commande > 500 €) ; net commercial = 740,00 − 74,00 = 666,00 €" },
+  { id: 'EX16', comp: 'C4', theme: TH_B, partie: 'Thème B — Net à payer, paiement à 5 jours (ballons)',
+    type: 'numeric', points: 1, context: CTX_BALLONS,
+    text: "Sprint Sports paie la facture 5 jours après l'avoir reçue. Quel est le net à payer ?", answer: 652.68, tolerance: 0.01, unit: '€',
+    corrige: "Escompte = 666,00 × 2 / 100 = 13,32 € ; net à payer = 666,00 − 13,32 = 652,68 €" },
+  { id: 'EX17', comp: 'C4', theme: TH_B, partie: "Thème B — Net à payer, paiement à 20 jours (ballons)",
+    type: 'numeric', points: 1, context: CTX_BALLONS,
+    text: "Imagine maintenant que Sprint Sports paie la facture 20 jours après l'avoir reçue. Quel montant doit-il payer ?", answer: 666, tolerance: 0.01, unit: '€',
+    corrige: "Paiement après 8 jours : pas d'escompte. Le client paie le net commercial, 666,00 €." },
+  { id: 'EX18', comp: 'C4', theme: TH_B, partie: 'Thème B — Montant de la ristourne annuelle',
+    type: 'numeric', points: 1, context: CTX_ANNEE,
+    text: "Quel montant le grossiste va-t-il rembourser à Sprint Sports ?", answer: 186, tolerance: 0.01, unit: '€',
+    corrige: "Total > 10 000 € : ristourne = 12 400 × 1,5 / 100 = 186,00 €" },
+
+  // ---------------- THÈME C ----------------
+  { id: 'EX19', comp: 'C5', theme: TH_C, partie: 'Thème C — Associer les échéances de paiement',
+    type: 'pairs', points: 2,
+    text: "Associe chaque situation à l'échéance de paiement qui lui correspond.",
+    qsub: "Clique une étiquette dans la réserve, puis l'emplacement qui lui correspond. Toutes les étiquettes ne sont pas utilisées.",
+    slots: [
+      { lbl: "Le client paie le livreur au moment où il reçoit la marchandise.", ans: "Contre remboursement" },
+      { lbl: "Le client paie dans les 8 jours qui suivent la réception de la facture.", ans: "Au comptant" },
+      { lbl: "Le client paie tout de suite, dès qu'il reçoit la facture.", ans: "Au grand comptant" },
+      { lbl: "Le client rembourse son achat en plusieurs mensualités.", ans: "À tempérament" },
+      { lbl: "Le client paie après un délai convenu, par exemple 60 jours.", ans: "À terme" }
+    ],
+    bank: ["Contre remboursement", "Au comptant", "Au grand comptant", "À tempérament", "À terme", "Avec acompte", "À la commande"] },
+  { id: 'EX20', comp: 'C5', theme: TH_C, partie: 'Thème C — Dates limites de paiement',
+    type: 'pairs', points: 2,
+    text: "Pour chaque facture, trouve la date limite de paiement.",
+    qsub: "Clique une date dans la réserve, puis la facture qui lui correspond. Toutes les dates ne sont pas utilisées.",
+    slots: [
+      { lbl: "Facture du 12/02/2026, payable à 30 jours date de facture", ans: "14/03/2026" },
+      { lbl: "Facture du 20/10/2026, payable au comptant", ans: "28/10/2026" },
+      { lbl: "Facture du 31/10/2026, payable à 30 jours fin de mois", ans: "30/11/2026" },
+      { lbl: "Facture du 05/05/2026, payable à 60 jours date de facture", ans: "04/07/2026" }
+    ],
+    bank: ["14/03/2026", "28/10/2026", "30/11/2026", "04/07/2026", "12/03/2026", "05/07/2026", "31/12/2026"] },
+  { id: 'EX21', comp: 'C5', theme: TH_C, partie: 'Thème C — Identifier la condition de paiement (cuisine)',
+    type: 'qcm', points: 1, context: CTX_CUISINE,
+    text: "Quelle condition de paiement est appliquée ?",
+    options: ["Avec acompte.", "À tempérament.", "Contre remboursement.", "À la commande."], correct: 0,
+    corrige: "1 470 / 9 800 = 15 % versés à la commande, solde à la livraison : paiement avec acompte." },
+  { id: 'EX22', comp: 'C5', theme: TH_C, partie: 'Thème C — Repérer les moyens de paiement',
+    type: 'multi', points: 1,
+    text: "Sélectionne tous les moyens de paiement.",
+    qsub: "Plusieurs réponses sont correctes.",
+    options: ["Virement bancaire", "Domiciliation bancaire", "Payconiq", "Carte Bancontact",
+              "À tempérament", "Au comptant", "À 30 jours fin de mois", "Franco de port"],
+    multi: [0, 1, 2, 3] },
+  { id: 'EX23', comp: 'C5', theme: TH_C, partie: 'Thème C — Affirmations fausses (mail du stagiaire)',
+    type: 'erreurs', points: 3,
+    docTitle: "Mail envoyé à M. Lambert",
+    docMeta: "De : stagiaire, service comptabilité · Objet : votre facture n° 2026-118",
+    text: "Un stagiaire a rédigé ce mail pour expliquer à un client les conditions de paiement de l'entreprise. Clique sur les affirmations qui sont fausses.",
+    qsub: "Clique une phrase pour la signaler ; clique à nouveau pour annuler ta sélection.",
+    segments: [
+      { t: "Votre facture n° 2026-118, d'un montant de 6 450 €, est datée du 15 janvier 2026 et payable à 30 jours date de facture." },
+      { t: "Vous devez donc nous payer au plus tard le 14 février 2026." },
+      { t: "Si vous préférez payer au comptant, vous disposez de 30 jours après la réception de la facture.",
+        err: true, fix: "Au comptant : paiement dans les 8 jours après la réception de la facture." },
+      { t: "Vous pouvez payer par virement bancaire ou par domiciliation bancaire." },
+      { t: "Vous pouvez également régler toute cette facture en espèces à notre comptoir.",
+        err: true, fix: "En Belgique, le paiement en espèces est limité à 3 000 € (règle générale) : impossible pour 6 450 €." },
+      { t: "Pour votre prochaine commande, nous vous proposons un paiement à tempérament : vous paierez la totalité au moment de la livraison.",
+        err: true, fix: "À tempérament = paiement échelonné en plusieurs mensualités. Payer à la livraison, c'est « contre remboursement »." },
+      { t: "Si vous choisissez de verser un acompte, il devra représenter au moins 15 % du montant de la commande." },
+      { t: "Dans ce cas, le solde sera payé 60 jours après la livraison.",
+        err: true, fix: "Avec acompte : le solde est payé à la livraison." },
+      { t: "Enfin, une facture payable au grand comptant doit être réglée dès sa réception." }
+    ] },
+
+  // ---------------- THÈME D ----------------
+  { id: 'EX24', comp: 'C6', theme: TH_D, partie: 'Thème D — Trier franco et non franco',
+    type: 'classer', points: 1,
+    text: "Qui paie le transport ? Classe chaque situation dans la bonne colonne.",
+    qsub: "Clique une étiquette, puis la colonne où tu veux la déposer. Clique une étiquette placée pour la renvoyer dans la réserve.",
+    bins: [ { name: "Franco" }, { name: "Non franco" } ],
+    items: [
+      { t: "Livraison gratuite", b: 0 },
+      { t: "Commande de 65 € sur un site qui livre gratuitement à partir de 50 €", b: 0 },
+      { t: "Le vendeur paie lui-même la facture du transporteur", b: 0 },
+      { t: "Franco domicile", b: 0 },
+      { t: "Port dû", b: 1 },
+      { t: "Commande de 42 € sur un site qui livre gratuitement à partir de 50 €", b: 1 },
+      { t: "Des frais d'envoi de 5,90 € sont ajoutés à la facture du client", b: 1 },
+      { t: "L'acheteur paie les frais de transport au transporteur, à la réception du colis", b: 1 }
+    ] },
+  { id: 'EX25', comp: 'C6', theme: TH_D, partie: 'Thème D — Voies de transport',
+    type: 'pairs', points: 1,
+    text: "Associe chaque transport à la voie utilisée.",
+    qsub: "Clique une étiquette dans la réserve, puis l'emplacement qui lui correspond. Toutes les étiquettes ne sont pas utilisées.",
+    slots: [
+      { lbl: "Des conteneurs voyagent d'Anvers à Montréal à bord d'un navire.", ans: "Voie maritime" },
+      { lbl: "Une barge chargée de charbon descend la Meuse jusqu'à Liège.", ans: "Voie fluviale" },
+      { lbl: "SNCB Logistics achemine des voitures neuves par le rail.", ans: "Voie ferroviaire" }
+    ],
+    bank: ["Voie maritime", "Voie fluviale", "Voie ferroviaire", "Voie terrestre", "Voie aérienne"] },
+
+  // ---------------- THÈME E ----------------
+  { id: 'EX26', comp: 'C6', theme: TH_E, partie: 'Thème E — Frais de port SportZone (particulier, 68 €)',
+    type: 'numeric', points: 1, context: CTX_SPORTZONE,
+    text: "Un particulier commande pour 68,00 € d'articles. Quel montant total paie-t-il à la commande ?", answer: 73.95, tolerance: 0.01, unit: '€',
+    corrige: "68,00 € < 75 € : non franco, frais de port 5,95 €. Pas de remise (< 400 €), pas d'escompte (particulier). Total = 73,95 €" },
+  { id: 'EX27', comp: 'C6', theme: TH_E, partie: 'Thème E — Délai de livraison SportZone',
+    type: 'qcm', points: 1, context: CTX_SPORTZONE,
+    text: "Dans quelle catégorie de délai de livraison se situe SportZone ?",
+    options: ["Standard.", "Express / 24 h.", "Économique.", "Sur rendez-vous."], correct: 0,
+    corrige: "2 à 4 jours ouvrables : livraison standard (2 à 5 jours ouvrables)." },
+  { id: 'EX28', comp: 'C4', theme: TH_E, partie: 'Thème E — Net à payer SportZone (club professionnel, 520 €)',
+    type: 'numeric', points: 2, context: CTX_SPORTZONE,
+    text: "Le club FC Jemappes, client professionnel, commande pour 520,00 € d'articles et paie sa facture dans les 8 jours. Quel montant paie-t-il ?", answer: 468.83, tolerance: 0.02, unit: '€',
+    corrige: "Remise 8 % (≥ 400 €) : 520 × 8 / 100 = 41,60 € → net commercial 478,40 €. Escompte 2 % : 478,40 × 2 / 100 = 9,57 € → net à payer 468,83 €. Livraison franco (≥ 75 €)." },
+  { id: 'EX29', comp: 'C5', theme: TH_E, partie: 'Thème E — Date limite SportZone (professionnel, 30 jours fin de mois)',
+    type: 'qcm', points: 1, context: CTX_SPORTZONE,
+    text: "L'école de danse Pointe et Plié, cliente professionnelle, reçoit une facture datée du 31/08/2026. Elle ne profite pas de l'escompte. Quelle est la date limite de paiement ?",
+    options: ["30/09/2026", "08/09/2026", "31/10/2026", "31/08/2026"], correct: 0,
+    corrige: "Professionnels : 30 jours fin de mois. Facture du 31/08 → 30/09/2026 (les deux lectures de « fin de mois » donnent la même date)." }
+];
+
+// RANDOMISATION — tous les types, une seule fois au chargement
+// (ordre stable pendant la session, différent entre élèves)
+function fisherYates(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+function shuffleOptions(arr, correctIndex) {
+  const correctText = arr[correctIndex];
+  const shuffled = fisherYates(arr.slice());
+  return { options: shuffled, correct: shuffled.indexOf(correctText) };
+}
+QUIZ.forEach(q => { const s = shuffleOptions(q.options, q.correct); q.options = s.options; q.correct = s.correct; });
+EXERCISES.forEach(ex => {
+  if (ex.type === 'qcm') { const s = shuffleOptions(ex.options, ex.correct); ex.options = s.options; ex.correct = s.correct; }
+  if (ex.type === 'multi') {
+    const correctTexts = ex.multi.map(i => ex.options[i]);
+    ex.options = fisherYates(ex.options.slice());
+    ex.multi = correctTexts.map(t => ex.options.indexOf(t)).sort((a, b) => a - b);
+  }
+  if (ex.type === 'classer') { ex.items = fisherYates(ex.items.slice()); }
+  if (ex.type === 'pairs')   { ex.bank = fisherYates(ex.bank.slice()); ex.slots = fisherYates(ex.slots.slice()); }
+  if (ex.type === 'schema')  { ex.bank = fisherYates(ex.bank.slice()); }   // jamais ex.answers
+  // 'erreurs' : jamais mélangé (texte suivi, numéros P1… comparables)
+});
+
+// ============================================================
+// OUTILS
+// ============================================================
+const $ = id => document.getElementById(id);
+function esc(str) {
+  return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+function parseAmount(v) {
+  const s = String(v).replace(/\s|\u00a0|€/g, '').replace(',', '.');
+  if (s === '' || !/^-?\d*\.?\d+$/.test(s)) return NaN;
+  return parseFloat(s);
+}
+const pointsPartiels = (ok, total, max) => Math.round((ok / total) * max * 2) / 2;
+const fmtPts = n => String(Math.round(n * 10) / 10).replace('.', ',');
+function fmtTime(sec) {
+  const h = Math.floor(sec / 3600), m = Math.floor((sec % 3600) / 60), s = sec % 60;
+  return [h, m, s].map(x => String(x).padStart(2, '0')).join(':');
+}
+const nowSec = () => Math.round(Date.now() / 1000);
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  $(id).classList.add('active');
+  $('appHeader').classList.toggle('show', id !== 'screenLogin');
+  window.scrollTo(0, 0);
+}
+function updateProgress() {
+  const done = STATE.quizAnswered.filter(Boolean).length + STATE.exAnswered.filter(Boolean).length;
+  $('progressFill').style.width = (100 * done / (CONFIG.NB_QUIZ + CONFIG.NB_EXERCICES)) + '%';
+}
+function startTimer() {
+  STATE.startTime = Date.now();
+  STATE.timerInterval = setInterval(() => {
+    STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+    $('timer').textContent = fmtTime(STATE.elapsed);
+  }, 1000);
+}
+
+// ============================================================
+// COMMUNICATION GOOGLE SHEET
+// ============================================================
+function jsonp(params) {
+  return new Promise((resolve, reject) => {
+    const cbName = 'cb_' + Date.now() + '_' + Math.random().toString(36).substr(2, 5);
+    const script = document.createElement('script');
+    const timer = setTimeout(() => { cleanup(); reject(new Error('Délai dépassé')); }, 20000);
+    function cleanup() { clearTimeout(timer); delete window[cbName]; if (script.parentNode) script.parentNode.removeChild(script); }
+    window[cbName] = function (data) { cleanup(); resolve(data); };
+    const qs = Object.entries(params).map(([k, v]) => `${k}=${encodeURIComponent(v)}`).join('&');
+    script.src = `${CONFIG.SCRIPT_URL}?callback=${cbName}&${qs}`;
+    script.onerror = () => { cleanup(); reject(new Error('Erreur réseau')); };
+    document.body.appendChild(script);
+  });
+}
+function postData(payload) {
+  return fetch(CONFIG.SCRIPT_URL, {
+    method: 'POST', mode: 'no-cors', keepalive: true,
+    headers: { 'Content-Type': 'text/plain' },
+    body: JSON.stringify(payload)
+  }).catch(err => console.warn('Envoi impossible :', err));
+}
+function sendAnswer(o) {
+  return postData(Object.assign({
+    action: 'submit_answer', email: STATE.email, classe: STATE.classe,
+    application: CONFIG.APP_NAME, session: STATE.session
+  }, o));
+}
+
+// ============================================================
+// COMPÉTENCES
+// ============================================================
+const ptsOf = q => q.points || 1;
+function initComp() {
+  STATE.comp = {};
+  Object.keys(COMPETENCES).forEach(c => STATE.comp[c] = { pts: 0, max: 0, nb: 0, reussi1: 0, abandons: 0, temps: 0 });
+  [...QUIZ, ...EXERCISES].forEach(q => { const c = STATE.comp[q.comp]; if (!c) return; c.max += ptsOf(q); c.nb++; });
+}
+function creditComp(q, points, tentative, temps, abandon) {
+  const c = STATE.comp[q.comp]; if (!c) return;
+  c.pts += points; c.temps += temps;
+  if (abandon) c.abandons++;
+  else if (points === ptsOf(q) && tentative === 1) c.reussi1++;
+}
+function niveauComp(c) {
+  if (c.nb < 3) return 'Indice';
+  const taux = c.max ? c.pts / c.max : 0;
+  if (taux < 0.5) return 'Non acquis';
+  if (taux < 0.8) return 'En cours';
+  return (c.abandons > 0 || c.reussi1 / c.nb < 0.5) ? 'En cours' : 'Acquis';
+}
+function auditCompetences() {
+  const compte = {};
+  Object.keys(COMPETENCES).forEach(c => compte[c] = { nb: 0, types: new Set() });
+  [...QUIZ.map(q => ({ ...q, type: 'qcm' })), ...EXERCISES].forEach(q => {
+    if (!q.comp || !COMPETENCES[q.comp]) { console.warn('Question sans compétence :', q.id); return; }
+    compte[q.comp].nb++; compte[q.comp].types.add(q.type);
+  });
+  Object.entries(compte).forEach(([c, v]) => {
+    if (v.nb === 0) console.warn(`${c} déclarée mais jamais mesurée — la retirer du référentiel`);
+    if (v.nb > 0 && v.nb < 3) console.warn(`${c} : ${v.nb} question(s) — affichée en « indice », pas en niveau`);
+    if (v.types.size === 1) console.warn(`${c} : un seul type de question (${[...v.types]}) — voir règle 16.4-4`);
+  });
+  const totEx = EXERCISES.reduce((s, e) => s + e.points, 0);
+  if (EXERCISES.length !== CONFIG.NB_EXERCICES) console.warn('NB_EXERCICES ne correspond pas :', EXERCISES.length);
+  if (totEx !== CONFIG.POINTS_EX) console.warn('Total des points d\'exercice :', totEx);
+  console.info('Audit compétences :', Object.fromEntries(Object.entries(compte).map(([c, v]) => [c, v.nb + ' q. / ' + [...v.types].join(', ')])));
+}
+auditCompetences();
+
+// ============================================================
+// LOGIN
+// ============================================================
+function loginMsg(txt, cls) { const m = $('loginMsg'); m.textContent = txt; m.className = 'login-msg ' + (cls || ''); }
+async function startLogin() {
+  const email = $('emailInput').value.trim().toLowerCase();
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { loginMsg("Cette adresse e-mail n'est pas valide. Vérifie ce que tu as écrit.", 'err'); return; }
+  const btn = $('btnStart'); btn.disabled = true;
+  loginMsg('Vérification de ton adresse…', 'info');
+  try {
+    const r1 = await jsonp({ action: 'check_email', email });
+    if (!r1 || !r1.found) { loginMsg("Cette adresse n'est pas inscrite pour l'évaluation. Vérifie l'orthographe ou préviens ton professeur.", 'err'); btn.disabled = false; return; }
+    STATE.email = email; STATE.classe = r1.classe || '';
+    const r2 = await jsonp({ action: 'check_access', email, app: CONFIG.APP_NAME });
+    if (r2 && r2.status === 'completed') { show('screenDone'); return; }
+    await jsonp({ action: 'start_eval', email, app: CONFIG.APP_NAME });
+  } catch (e) {
+    loginMsg("Connexion au serveur impossible. Vérifie ta connexion internet et réessaie.", 'err'); btn.disabled = false; return;
+  }
+  postData({ action: 'register_app', application: CONFIG.APP_NAME, nb_quiz: CONFIG.NB_QUIZ, nb_exercices: CONFIG.NB_EXERCICES, points_max: CONFIG.POINTS_MAX });
+  STATE.session = new Date().toISOString();
+  $('hdrMail').textContent = STATE.email + (STATE.classe ? ' · ' + STATE.classe : '');
+  initComp();
+  show('screenQuiz');
+  startTimer();
+  STATE.quizStart = nowSec();
+  window.addEventListener('beforeunload', warnLeave);
+  renderQuiz();
+}
+function warnLeave(e) { e.preventDefault(); e.returnValue = ''; }
+$('btnStart').addEventListener('click', startLogin);
+$('emailInput').addEventListener('keydown', e => { if (e.key === 'Enter') startLogin(); });
+
+// ============================================================
+// QUIZ
+// ============================================================
+let quizPick = null;
+function renderQuiz() {
+  const q = QUIZ[STATE.currentQuiz];
+  quizPick = null;
+  STATE.questionStartTime = nowSec();
+  const letters = 'ABCD';
+  $('quizCard').innerHTML = `
+    <div class="q-meta"><strong>Question ${STATE.currentQuiz + 1} / ${CONFIG.NB_QUIZ}</strong><span>1 point · une seule tentative</span></div>
+    <div class="q-text">${esc(q.text)}</div>
+    <div class="q-body"><div class="qcm-list">
+      ${q.options.map((o, i) => `<button type="button" class="qcm-option" data-i="${i}"><span class="ltr">${letters[i]}</span><span>${esc(o)}</span></button>`).join('')}
+    </div></div>
+    <div class="feedback" id="quizFeedback"></div>
+    <div class="actions">
+      <button class="btn btn-primary" id="btnQuizValidate" disabled>Valider</button>
+      <button class="btn btn-primary" id="btnQuizNext" style="display:none">${STATE.currentQuiz + 1 < CONFIG.NB_QUIZ ? 'Question suivante' : 'Terminer la théorie'}</button>
+    </div>`;
+  document.querySelectorAll('#quizCard .qcm-option').forEach(b => {
+    b.onclick = () => {
+      if (STATE.quizAnswered[STATE.currentQuiz]) return;
+      quizPick = parseInt(b.dataset.i, 10);
+      document.querySelectorAll('#quizCard .qcm-option').forEach(x => x.classList.toggle('selected', x === b));
+      $('btnQuizValidate').disabled = false;
+    };
+  });
+  $('btnQuizValidate').onclick = validateQuiz;
+  $('btnQuizNext').onclick = nextQuiz;
+}
+function validateQuiz() {
+  const i = STATE.currentQuiz, q = QUIZ[i];
+  if (quizPick === null || STATE.quizAnswered[i]) return;
+  const ok = quizPick === q.correct, points = ok ? 1 : 0, t = nowSec() - STATE.questionStartTime;
+  STATE.quizAnswered[i] = true; STATE.quizPoints += points;
+  creditComp(q, points, 1, t, false);
+  sendAnswer({ volet: 'Quiz', partie: `Quiz — ${q.id}`, question: q.text, reponse_eleve: q.options[quizPick],
+    reponse_correcte: q.options[q.correct], points, points_max: 1, tentative: 1, temps_secondes: t });
+  document.querySelectorAll('#quizCard .qcm-option').forEach(x => x.classList.add('locked'));
+  const fb = $('quizFeedback');
+  fb.className = 'feedback show ' + (ok ? 'ok' : 'ko');
+  fb.textContent = ok ? 'Correct.' : 'Pas correct.';
+  $('btnQuizValidate').style.display = 'none';
+  $('btnQuizNext').style.display = '';
+  $('btnQuizNext').focus();
+  updateProgress();
+}
+function nextQuiz() {
+  STATE.currentQuiz++;
+  if (STATE.currentQuiz < CONFIG.NB_QUIZ) { renderQuiz(); window.scrollTo(0, 0); return; }
+  sendAnswer({ volet: 'Quiz', partie: 'TOTAL — Quiz', question: '', reponse_eleve: '', reponse_correcte: '',
+    points: STATE.quizPoints, points_max: 10, tentative: 1, temps_secondes: nowSec() - STATE.quizStart });
+  show('screenTransition');
+}
+$('btnStartEx').addEventListener('click', () => { STATE.exStart = nowSec(); show('screenExercise'); renderExercise(); });
+
+// ============================================================
+// EXERCICES — rendu
+// ============================================================
+let EXUI = { pick: null, place: {}, sel: [], qcmPick: null, locked: false };
+
+function renderExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  EXUI = { pick: null, place: {}, sel: [], qcmPick: null, locked: false };
+  STATE.questionStartTime = nowSec(); STATE.lastAttemptTime = STATE.questionStartTime;
+  const nbT = maxTentatives(ex);
+  $('exCounter').textContent = `Exercice ${i + 1} / ${CONFIG.NB_EXERCICES}`;
+  $('exPts').textContent = `${ex.points} point${ex.points > 1 ? 's' : ''} · ${nbT === 1 ? 'une seule tentative' : 'deux tentatives'}`;
+  $('exHead').innerHTML = `
+    ${ex.theme ? `<div class="q-theme">${esc(ex.theme)}</div>` : ''}
+    ${ex.context ? `<div class="q-context">${ex.context}</div>` : ''}
+    <div class="q-text">${esc(ex.text)}</div>
+    ${ex.qsub ? `<div class="q-sub">${esc(ex.qsub)}</div>` : ''}`;
+  const fb = $('exFeedback'); fb.className = 'feedback'; fb.innerHTML = '';
+  $('btnValidate').style.display = ''; $('btnSkip').style.display = ''; $('btnSkip').disabled = false;
+  $('btnNextEx').style.display = 'none';
+  $('btnNextEx').textContent = i + 1 < CONFIG.NB_EXERCICES ? 'Question suivante' : "Terminer l'évaluation";
+  if (ex.type === 'numeric') {
+    $('exBody').innerHTML = `<div class="num-row">
+        <input type="text" inputmode="decimal" class="num-input" id="numInput" placeholder="${ex.unit === '€' ? '0,00' : 'Nombre'}" autocomplete="off" aria-label="Ta réponse">
+        <span class="num-unit">${esc(ex.unit || '')}</span></div>
+      <div class="num-hint">Écris seulement le nombre, sans séparateur de milliers. Point ou virgule acceptés.</div>`;
+    const inp = $('numInput');
+    inp.addEventListener('input', () => updateReady(ex));
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter' && !$('btnValidate').disabled) validateExercise(); });
+    updateReady(ex);
+    setTimeout(() => inp.focus(), 50);
+  } else {
+    paintExercise(ex);
+  }
+}
+
+function paintExercise(ex) {
+  const body = $('exBody');
+  const r = { qcm: renderQcm, classer: renderClasser, pairs: renderPairs, schema: renderSchema, multi: renderMulti, erreurs: renderErreurs }[ex.type];
+  body.innerHTML = r(ex);
+  body.classList.toggle('locked-zone', EXUI.locked);
+  bindExercise(ex);
+  updateReady(ex);
+}
+
+function renderQcm(ex) {
+  const letters = 'ABCD';
+  return `<div class="qcm-list">${ex.options.map((o, i) =>
+    `<button type="button" class="qcm-option ${EXUI.qcmPick === i ? 'selected' : ''} ${EXUI.locked ? 'locked' : ''}" data-i="${i}"><span class="ltr">${letters[i]}</span><span>${esc(o)}</span></button>`).join('')}</div>`;
+}
+function renderMulti(ex) {
+  return `<div class="multi-list">${ex.options.map((o, i) => {
+    const on = EXUI.sel.includes(i);
+    return `<button type="button" class="multi-opt ${on ? 'selected' : ''} ${EXUI.locked ? 'locked' : ''}" data-i="${i}" aria-pressed="${on}"><span class="box">${on ? '✓' : ''}</span><span>${esc(o)}</span></button>`;
+  }).join('')}</div>`;
+}
+function renderErreurs(ex) {
+  return `<div class="doc">
+    <div class="doc-head"><strong>${esc(ex.docTitle || 'Document')}</strong>${ex.docMeta ? `<br>${esc(ex.docMeta)}` : ''}</div>
+    <div class="doc-body">${ex.segments.map((s, i) =>
+      `<span class="seg ${EXUI.sel.includes(i) ? 'flag' : ''}" data-i="${i}" role="button" tabindex="${EXUI.locked ? -1 : 0}" aria-pressed="${EXUI.sel.includes(i)}">${esc(s.t)}</span>`).join(' ')}</div>
+  </div>`;
+}
+function reserveHTML(tagsHtml, emptyTxt) {
+  return `<div class="reserve-label">Réserve</div><div class="reserve" id="reserve">${tagsHtml.replace(/\s/g, '') === '' ? `<span class="reserve-empty">${emptyTxt}</span>` : tagsHtml}</div>`;
+}
+function renderClasser(ex) {
+  const placedIdx = Object.keys(EXUI.place).map(Number);
+  const reserve = ex.items.map((it, i) => placedIdx.includes(i) ? '' :
+    `<div class="tag ${EXUI.pick === i ? 'picked' : ''}" data-tag="${i}" role="button" tabindex="0">${esc(it.t)}</div>`).join('');
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const bins = ex.bins.map((b, bi) => {
+    const inside = ex.items.map((it, i) => EXUI.place[i] === bi ? `<div class="tag placed" data-placed="${i}">${esc(it.t)}</div>` : '').join('');
+    return `<div class="bin ${droppable}" data-bin="${bi}">
+        <div class="bin-title">${esc(b.name)}</div>
+        <div class="bin-drop">${inside === '' ? '<span class="bin-empty">Dépose ici</span>' : inside}</div>
+      </div>`;
+  }).join('');
+  return reserveHTML(reserve, 'Toutes les étiquettes sont placées.') + `<div class="bins">${bins}</div>`;
+}
+function bankTags(ex) {
+  const used = Object.values(EXUI.place);
+  return ex.bank.map(w => used.includes(w) ? '' :
+    `<div class="tag ${EXUI.pick === w ? 'picked' : ''}" data-bank="${esc(w)}" role="button" tabindex="0">${esc(w)}</div>`).join('');
+}
+function renderPairs(ex) {
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const rows = ex.slots.map((s, k) => {
+    const v = EXUI.place[k];
+    return `<div class="pair-row ${droppable}" data-slot="${k}">
+      <div class="pair-lbl">${esc(s.lbl)}</div>
+      <div class="slot-box">${v !== undefined ? `<span class="tag placed">${esc(v)}</span>` : '<span class="slot-empty">?</span>'}</div>
+    </div>`;
+  }).join('');
+  return reserveHTML(bankTags(ex), 'Tous les emplacements sont remplis.') + `<div class="pairs">${rows}</div>`;
+}
+function renderSchema(ex) {
+  const droppable = (EXUI.pick !== null && !EXUI.locked) ? 'droppable' : '';
+  const slot = k => {
+    const v = EXUI.place[k];
+    return `<div class="sch-slot ${droppable}" data-slot="${k}">${v !== undefined ? `<span class="tag placed">${esc(v)}</span>` : '<span class="slot-empty">?</span>'}</div>`;
+  };
+  const fixed = t => `<td class="fixed">${t}</td>`;
+  return reserveHTML(bankTags(ex), 'Tous les mots sont placés.') + `
+    <div class="sch-title">Tableau récapitulatif</div>
+    <div class="sch-wrap"><table class="sch">
+      <thead><tr><th>Réduction</th><th>Type</th><th>Raison</th><th>Quand ?</th></tr></thead>
+      <tbody>
+        <tr><td class="rowh">Rabais</td>${fixed('Commerciale')}<td>${slot(0)}</td><td>${slot(1)}</td></tr>
+        <tr><td class="rowh">Remise</td>${fixed('Commerciale')}<td>${slot(2)}</td><td>${slot(3)}</td></tr>
+        <tr><td class="rowh">Ristourne</td>${fixed('Commerciale')}<td>${slot(4)}</td><td>${slot(5)}</td></tr>
+        <tr><td class="rowh">Escompte</td><td>${slot(6)}</td><td>${slot(7)}</td><td>${slot(8)}</td></tr>
+      </tbody>
+    </table></div>`;
+}
+
+// ============================================================
+// EXERCICES — interactions (règles 13.11 et 13.13)
+// ============================================================
+function keyActivate(el) { el.onkeydown = e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); el.click(); } }; }
+
+function bindExercise(ex) {
+  const q = sel => document.querySelectorAll('#exBody ' + sel);
+  if (ex.type === 'qcm') {
+    q('.qcm-option').forEach(b => b.onclick = () => { if (EXUI.locked) return; EXUI.qcmPick = parseInt(b.dataset.i, 10); paintExercise(ex); });
+  }
+  if (ex.type === 'multi' || ex.type === 'erreurs') {
+    q(ex.type === 'multi' ? '.multi-opt' : '.seg').forEach(b => {
+      b.onclick = () => {
+        if (EXUI.locked) return;
+        const i = parseInt(b.dataset.i, 10);
+        EXUI.sel = EXUI.sel.includes(i) ? EXUI.sel.filter(x => x !== i) : [...EXUI.sel, i];
+        paintExercise(ex);
+        const again = document.querySelector(`#exBody [data-i="${i}"]`); if (again) again.focus();
+      };
+      if (ex.type === 'erreurs') keyActivate(b);
+    });
+  }
+  if (ex.type === 'classer') {
+    q('.tag[data-tag]').forEach(t => {
+      t.onclick = () => { if (EXUI.locked) return; const i = parseInt(t.dataset.tag, 10); EXUI.pick = EXUI.pick === i ? null : i; paintExercise(ex); };
+      keyActivate(t);
+    });
+    q('.bin[data-bin]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked || EXUI.pick === null) return;
+        EXUI.place[EXUI.pick] = parseInt(el.dataset.bin, 10);
+        EXUI.pick = null;
+        paintExercise(ex);
+      };
+    });
+    q('.tag[data-placed]').forEach(el => {
+      el.onclick = (evt) => {
+        if (EXUI.locked) return;
+        if (EXUI.pick !== null) return;          // laisser remonter : dépôt dans la colonne
+        evt.stopPropagation();
+        delete EXUI.place[parseInt(el.dataset.placed, 10)];
+        paintExercise(ex);
+      };
+    });
+  }
+  if (ex.type === 'pairs' || ex.type === 'schema') {
+    q('.tag[data-bank]').forEach(t => {
+      t.onclick = () => { if (EXUI.locked) return; const w = t.dataset.bank; EXUI.pick = EXUI.pick === w ? null : w; paintExercise(ex); };
+      keyActivate(t);
+    });
+    q('[data-slot]').forEach(el => {
+      el.onclick = () => {
+        if (EXUI.locked) return;
+        const k = parseInt(el.dataset.slot, 10);
+        if (EXUI.pick !== null) { EXUI.place[k] = EXUI.pick; EXUI.pick = null; }   // dépôt ou remplacement
+        else if (EXUI.place[k] !== undefined) { delete EXUI.place[k]; }             // retrait
+        else return;
+        paintExercise(ex);
+      };
+    });
+  }
+}
+
+function checkExercise(ex) {
+  switch (ex.type) {
+    case 'numeric': { const el = $('numInput'); return { ready: !!el && !isNaN(parseAmount(el.value)) }; }
+    case 'qcm': return { ready: EXUI.qcmPick !== null };
+    case 'multi': return { ready: EXUI.sel.length > 0 };
+    case 'erreurs': return { ready: true };
+    case 'classer': return { ready: Object.keys(EXUI.place).length === ex.items.length };
+    case 'pairs': return { ready: Object.keys(EXUI.place).length === ex.slots.length };
+    case 'schema': return { ready: Object.keys(EXUI.place).length === ex.answers.length };
+  }
+  return { ready: false };
+}
+function updateReady(ex) { $('btnValidate').disabled = EXUI.locked || !checkExercise(ex).ready; }
+
+// ============================================================
+// EXERCICES — validation
+// ============================================================
+function validateAnswer(ex) {
+  if (ex.type === 'numeric') {
+    const v = parseAmount($('numInput').value);
+    return { correct: Math.abs(v - ex.answer) <= ex.tolerance, studentStr: String(v), correctStr: String(ex.answer) };
+  }
+  if (ex.type === 'qcm') {
+    return { correct: EXUI.qcmPick === ex.correct, studentStr: ex.options[EXUI.qcmPick], correctStr: ex.options[ex.correct] };
+  }
+  if (ex.type === 'multi') {
+    const good = EXUI.sel.filter(i => ex.multi.includes(i)).length, bad = EXUI.sel.length - good;
+    const chosen = EXUI.sel.slice().sort((a, b) => a - b);
+    const correct = bad === 0 && good === ex.multi.length;
+    return { correct, okCount: Math.max(0, good - bad), total: ex.multi.length,
+      studentStr: chosen.map(i => ex.options[i]).join(' | '), correctStr: ex.multi.map(i => ex.options[i]).join(' | ') };
+  }
+  if (ex.type === 'erreurs') {
+    const attendus = ex.segments.map((s, i) => s.err ? i : -1).filter(i => i >= 0);
+    const choisis = EXUI.sel.slice().sort((a, b) => a - b);
+    const good = choisis.filter(i => attendus.includes(i)).length, bad = choisis.length - good;
+    const fmt = list => list.length ? list.map(i => 'P' + (i + 1)).join(', ') : '(aucune)';
+    return { correct: bad === 0 && good === attendus.length, okCount: Math.max(0, good - bad), total: attendus.length,
+      studentStr: fmt(choisis), correctStr: fmt(attendus) };
+  }
+  if (ex.type === 'classer') {
+    let ok = 0; const parts = [], cparts = [];
+    ex.items.forEach((it, i) => {
+      if (EXUI.place[i] === it.b) ok++;
+      parts.push(`${it.t} → ${ex.bins[EXUI.place[i]] ? ex.bins[EXUI.place[i]].name : '?'}`);
+      cparts.push(`${it.t} → ${ex.bins[it.b].name}`);
+    });
+    return { correct: ok === ex.items.length, okCount: ok, total: ex.items.length, studentStr: parts.join(' | '), correctStr: cparts.join(' | ') };
+  }
+  if (ex.type === 'pairs') {
+    let ok = 0;
+    ex.slots.forEach((s, k) => { if (EXUI.place[k] === s.ans) ok++; });
+    return { correct: ok === ex.slots.length, okCount: ok, total: ex.slots.length,
+      studentStr: ex.slots.map((s, k) => `${s.lbl} → ${EXUI.place[k] || '?'}`).join(' | '),
+      correctStr: ex.slots.map(s => `${s.lbl} → ${s.ans}`).join(' | ') };
+  }
+  if (ex.type === 'schema') {
+    let ok = 0;
+    ex.answers.forEach((a, k) => { if (EXUI.place[k] === a) ok++; });
+    const name = k => (ex.slotNames && ex.slotNames[k]) || ('Case ' + (k + 1));
+    return { correct: ok === ex.answers.length, okCount: ok, total: ex.answers.length,
+      studentStr: ex.answers.map((a, k) => `${name(k)} : ${EXUI.place[k] || '?'}`).join(' | '),
+      correctStr: ex.answers.map((a, k) => `${name(k)} : ${a}`).join(' | ') };
+  }
+}
+
+function validateExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  if (EXUI.locked || STATE.exAnswered[i] || !checkExercise(ex).ready) return;
+  const r = validateAnswer(ex);
+  STATE.exAttempts[i]++;
+  const attempt = STATE.exAttempts[i], max = maxTentatives(ex);
+  let points;
+  if (r.correct) points = ex.points;
+  else if (PARTIELS.includes(ex.type)) points = Math.min(pointsPartiels(r.okCount, r.total, ex.points), ex.points - 0.5);
+  else points = 0;
+  points = Math.max(0, points);
+  STATE.exBest[i] = Math.max(STATE.exBest[i], points);
+  const now = nowSec(), t = now - STATE.lastAttemptTime; STATE.lastAttemptTime = now;
+  const prefix = PARTIELS.includes(ex.type) ? `[${r.okCount}/${r.total} corrects] ` : '';
+  sendAnswer({ volet: 'Exercice', partie: ex.partie, question: ex.text, reponse_eleve: prefix + r.studentStr,
+    reponse_correcte: r.correctStr, points, points_max: ex.points, tentative: attempt, temps_secondes: t });
+
+  const fb = $('exFeedback');
+  if (r.correct) {
+    fb.className = 'feedback show ok'; fb.innerHTML = 'Correct.';
+    closeQuestion(false);
+  } else if (attempt >= max) {
+    fb.className = 'feedback show ko';
+    fb.innerHTML = max === 1 ? 'Pas correct.<small>Cette question ne comptait qu\'une seule tentative.</small>' : 'Pas correct.<small>Tu as utilisé tes deux tentatives.</small>';
+    closeQuestion(false);
+  } else {
+    fb.className = 'feedback show ko';
+    fb.innerHTML = 'Pas correct.<small>Il te reste une tentative : relis ta réponse, modifie-la puis valide à nouveau.</small>';
+  }
+}
+
+function lockExInputs() {
+  EXUI.locked = true; EXUI.pick = null;
+  document.querySelectorAll('.question-card input').forEach(inp => inp.disabled = true);
+  document.querySelectorAll('.question-card select').forEach(sel => sel.disabled = true);
+  document.querySelectorAll('.qcm-option').forEach(el => el.classList.add('locked'));
+}
+
+function closeQuestion(abandon) {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  STATE.exAnswered[i] = true;
+  STATE.exTime[i] = nowSec() - STATE.questionStartTime;
+  creditComp(ex, STATE.exBest[i], STATE.exAttempts[i], STATE.exTime[i], abandon);
+  lockExInputs();
+  if (ex.type !== 'numeric') paintExercise(ex);
+  $('btnValidate').style.display = 'none';
+  $('btnSkip').style.display = 'none';
+  $('btnNextEx').style.display = '';
+  updateProgress();
+  if (!abandon) $('btnNextEx').focus();
+}
+
+function skipExercise() {
+  const i = STATE.currentEx, ex = EXERCISES[i];
+  if (STATE.exAnswered[i]) return;
+  const n = STATE.exAttempts[i];
+  if (!confirm(n === 0 ? 'Passer cet exercice ? Il sera compté zéro et tu ne pourras pas y revenir.' : 'Passer cet exercice ? Tu gardes les points de ta meilleure tentative, mais tu ne pourras pas y revenir.')) return;
+  const now = nowSec(), t = now - STATE.lastAttemptTime;
+  sendAnswer({ volet: 'Exercice', partie: ex.partie, question: ex.text,
+    reponse_eleve: n === 0 ? '[Passé]' : `[Passé après ${n} tentative${n > 1 ? 's' : ''}]`,
+    reponse_correcte: '', points: STATE.exBest[i], points_max: ex.points, tentative: Math.max(1, n), temps_secondes: t });
+  closeQuestion(true);
+  nextExercise();
+}
+
+function nextExercise() {
+  STATE.currentEx++;
+  if (STATE.currentEx < CONFIG.NB_EXERCICES) { renderExercise(); window.scrollTo(0, 0); }
+  else finishEvaluation();
+}
+
+$('btnValidate').addEventListener('click', validateExercise);
+$('btnSkip').addEventListener('click', skipExercise);
+$('btnNextEx').addEventListener('click', nextExercise);
+
+// ============================================================
+// FIN DE L'ÉVALUATION
+// ============================================================
+async function finishEvaluation() {
+  clearInterval(STATE.timerInterval);
+  STATE.elapsed = Math.floor((Date.now() - STATE.startTime) / 1000);
+  STATE.exPoints = STATE.exBest.reduce((s, p) => s + p, 0);
+  const total = STATE.quizPoints + STATE.exPoints;
+  window.removeEventListener('beforeunload', warnLeave);
+  renderSummary(total);
+  show('screenSummary');
+  $('progressFill').style.width = '100%';
+
+  await sendAnswer({ volet: 'Exercice', partie: 'TOTAL — Exercices', question: '', reponse_eleve: '', reponse_correcte: '',
+    points: STATE.exPoints, points_max: 40, tentative: 1, temps_secondes: nowSec() - STATE.exStart });
+  await sendAnswer({ volet: 'Évaluation', partie: 'TOTAL — Évaluation', question: '', reponse_eleve: '', reponse_correcte: '',
+    points: total, points_max: CONFIG.POINTS_MAX, tentative: 1, temps_secondes: STATE.elapsed });
+  for (const [code, c] of Object.entries(STATE.comp)) {
+    if (c.nb === 0) continue;
+    await sendAnswer({ volet: 'Synthèse', partie: `${code} — ${COMPETENCES[code].libelle}`, question: String(c.nb),
+      reponse_eleve: niveauComp(c), reponse_correcte: '', points: c.pts, points_max: c.max,
+      tentative: c.reussi1, temps_secondes: c.temps });
+  }
+  await postData({ action: 'complete_eval', email: STATE.email, app: CONFIG.APP_NAME });
+}
+
+const NIVEAUX = {
+  'Acquis':     { cls: 'acq', pill: '✔ Acquis',            phrase: 'Tu maîtrises.',                                  color: 'var(--green)' },
+  'En cours':   { cls: 'enc', pill: '~ En cours',          phrase: "Tu comprends, il te manque l'entraînement.",     color: 'var(--orange)' },
+  'Non acquis': { cls: 'non', pill: '✗ Non acquis',        phrase: 'À reprendre avec le professeur.',                color: 'var(--red)' },
+  'Indice':     { cls: 'ind', pill: 'Indice',              phrase: 'Trop peu de questions pour donner un niveau.',   color: 'var(--slate-light)' }
+};
+function renderSummary(total) {
+  $('totalScore').textContent = fmtPts(total);
+  $('totalMax').textContent = '/ 50';
+  $('quizScore').textContent = `${STATE.quizPoints} / 10`;
+  $('exScore').textContent = `${fmtPts(STATE.exPoints)} / 40`;
+  $('totalTime').textContent = fmtTime(STATE.elapsed);
+  const rows = [], prio = [];
+  Object.entries(COMPETENCES).forEach(([code, def]) => {
+    const c = STATE.comp[code]; if (!c || c.nb === 0) return;
+    const niv = niveauComp(c), n = NIVEAUX[niv], pct = c.max ? Math.round(100 * c.pts / c.max) : 0;
+    rows.push(`<div class="comp-row">
+      <div class="comp-name">${esc(def.libelle)}</div>
+      <span class="pill ${n.cls}">${n.pill}</span>
+      <div class="comp-bar"><span style="width:${pct}%;background:${n.color}"></span></div>
+      <div class="comp-phrase">${fmtPts(c.pts)} / ${fmtPts(c.max)} points — ${n.phrase}</div>
+    </div>`);
+    if (niv === 'Non acquis' || niv === 'En cours') prio.push({ def, niv, taux: c.max ? c.pts / c.max : 0 });
+  });
+  $('compList').innerHTML = rows.join('');
+  prio.sort((a, b) => (a.niv === b.niv ? a.taux - b.taux : (a.niv === 'Non acquis' ? -1 : 1)));
+  $('prioBox').innerHTML = prio.length
+    ? `<h3>Tes priorités de travail</h3><ul>${prio.slice(0, 3).map(p => `<li>Retravailler : ${esc(p.def.libelle.charAt(0).toLowerCase() + p.def.libelle.slice(1))}.</li>`).join('')}</ul>`
+    : `<h3>Tes priorités de travail</h3><p>Continue à revoir l'ensemble de la matière avant l'évaluation certificative.</p>`;
+}
+</script>
+</body>
+</html>
